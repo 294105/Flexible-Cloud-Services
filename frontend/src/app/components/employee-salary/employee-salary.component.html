@@ -1,0 +1,23 @@
+<h3 class="mb-4">Employee Salaries</h3>
+<table class="table table-bordered">
+  <thead class="table-light">
+    <tr>
+      <th>Name</th>
+      <th>Salary</th>
+      <th>Status</th>
+      <th>Payment Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let emp of employees">
+      <td>{{ emp.name }}</td>
+      <td>${{ emp.salary }}</td>
+      <td>{{ emp.paid ? 'Yes' : 'No' }}</td>
+      <td>
+        <button class="btn btn-sm btn-success" [disabled]="emp.paid" (click)="paySalary(emp._id)">
+          Pay Now
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
