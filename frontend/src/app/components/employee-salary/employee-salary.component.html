@@ -12,10 +12,15 @@
     <tr *ngFor="let emp of employees">
       <td>{{ emp.name }}</td>
       <td>${{ emp.salary }}</td>
-      <td>{{ emp.paid?.toLowerCase() === 'paid' ? 'Paid' : 'Unpaid' }}</td>
+      <td>{{ emp.paid?.toLowerCase() === 'paid' ? 'PAID' : 'UNPAID' }}</td>
       <td>
-        <!-- You can show the payment date here if needed -->
-        <span *ngIf="emp.paid?.toLowerCase() === 'paid'">{{ emp.paymentDate || 'N/A' }}</span>
+        <!-- If salary is not paid, show 'NOT PAID YET' -->
+        <span *ngIf="emp.paid?.toLowerCase() === 'paid'">
+          {{ emp.paymentDate || 'N/A' }}
+        </span>
+        <span *ngIf="emp.paid?.toLowerCase() !== 'paid'">
+          NOT PAID YET
+        </span>
       </td>
     </tr>
   </tbody>

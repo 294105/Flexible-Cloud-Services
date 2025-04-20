@@ -25,8 +25,8 @@ const EmployeeSchema = new mongoose.Schema({
     default: true
   },
   paymentDate: {           // Added field for payment date
-    type: Date,
-    default: null          // Default to null if not paid yet
+    type: String,
+    default: 'NOT PAID YET'          // Default to null if not paid yet
   }
 });
 
