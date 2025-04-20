@@ -12,11 +12,10 @@
     <tr *ngFor="let emp of employees">
       <td>{{ emp.name }}</td>
       <td>${{ emp.salary }}</td>
-      <td>{{ emp.paid ? 'Yes' : 'No' }}</td>
+      <td>{{ emp.paid?.toLowerCase() === 'paid' ? 'Paid' : 'Unpaid' }}</td>
       <td>
-        <button class="btn btn-sm btn-success" [disabled]="emp.paid" (click)="paySalary(emp._id)">
-          Pay Now
-        </button>
+        <!-- You can show the payment date here if needed -->
+        <span *ngIf="emp.paid?.toLowerCase() === 'paid'">{{ emp.paymentDate || 'N/A' }}</span>
       </td>
     </tr>
   </tbody>

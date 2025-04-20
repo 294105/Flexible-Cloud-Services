@@ -33,14 +33,20 @@ export class PurchaseOrderComponent {
   }
 
   onSubmit() {
-
     console.log('Submitting form:', this.poForm.value);
-
-    
+  
     const formValue = { ...this.poForm.value, totalCost: this.totalCost };
+  
     this.api.createPurchaseOrder(formValue).subscribe({
-      next: () => alert('Purchase Order Submitted!'),
-      error: (err: any) => console.error(err)
+      next: () => {
+        alert('Purchase Order Submitted!');
+        location.reload(); // ✅ reload only after success
+      },
+      error: (err: any) => {
+        console.error(err);
+        alert('Failed to submit Purchase Order.');
+      }
     });
   }
+  
 }

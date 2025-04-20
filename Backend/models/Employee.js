@@ -6,6 +6,10 @@ const EmployeeSchema = new mongoose.Schema({
     required: true
   },
   role: String,
+  paid: {
+    type: String,
+    default: 'No'
+  },
   salary: {
     type: Number,
     required: true
@@ -19,6 +23,10 @@ const EmployeeSchema = new mongoose.Schema({
   isActive: {
     type: Boolean,
     default: true
+  },
+  paymentDate: {           // Added field for payment date
+    type: Date,
+    default: null          // Default to null if not paid yet
   }
 });
 
