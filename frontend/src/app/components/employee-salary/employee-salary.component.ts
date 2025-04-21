@@ -11,13 +11,19 @@ import { ApiService } from '../../services/api.service';
 })
 export class EmployeeSalaryComponent implements OnInit {
   employees: any[] = [];
+  today: string = '';
 
   constructor(private api: ApiService) {}
 
   ngOnInit() {
+    // Get employees
     this.api.getEmployees().subscribe(data => {
       this.employees = data;
     });
+
+    // Set today's date in YYYY-MM-DD format
+    const date = new Date();
+    this.today = date.toISOString().split('T')[0];
   }
 
   paySalary(id: string) {
@@ -26,3 +32,4 @@ export class EmployeeSalaryComponent implements OnInit {
     });
   }
 }
+

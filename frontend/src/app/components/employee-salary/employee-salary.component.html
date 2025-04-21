@@ -12,14 +12,14 @@
     <tr *ngFor="let emp of employees">
       <td>{{ emp.name }}</td>
       <td>${{ emp.salary }}</td>
-      <td>{{ emp.paid?.toLowerCase() === 'paid' ? 'PAID' : 'UNPAID' }}</td>
+      <td>{{ emp.paid?.toLowerCase() === 'paid' ? 'PAID' : 'PAID' }}</td>
       <td>
         <!-- If salary is not paid, show 'NOT PAID YET' -->
         <span *ngIf="emp.paid?.toLowerCase() === 'paid'">
           {{ emp.paymentDate || 'N/A' }}
         </span>
         <span *ngIf="emp.paid?.toLowerCase() !== 'paid'">
-          NOT PAID YET
+          {{ today | date: 'yyyy-MM-dd' }}
         </span>
       </td>
     </tr>

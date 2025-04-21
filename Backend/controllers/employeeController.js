@@ -1,5 +1,6 @@
 const Employee = require('../models/Employee');
 
+
 exports.addEmployee = async (req, res) => {
     try {
       const { name, role, salary, trainerBankDetails } = req.body;
@@ -31,4 +32,14 @@ exports.getAllEmployees = async (req, res) => {
     console.error('❌ Error fetching employees:', error);
     res.status(500).json({ message: 'Server error', error: error.message });
   }
+
+
+
+
+
+
+
+
+
+
 };
