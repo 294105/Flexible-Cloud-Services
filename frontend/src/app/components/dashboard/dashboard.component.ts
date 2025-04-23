@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ApiService } from '../../services/api.service';
+import { HttpClient } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { ApiService } from '../../services/api.service';
+import { HeaderComponent } from '../header/header.component';
 
 // Define an interface for the expected finance data
 interface FinanceDetails {
@@ -14,7 +16,7 @@ interface FinanceDetails {
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule,RouterModule],
+  imports: [CommonModule, RouterModule, HeaderComponent],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
@@ -23,25 +25,39 @@ export class DashboardComponent implements OnInit {
   totalRevenue: number = 0;
   totalSalaries: number = 0;
   profit: number = 0;
-  loading: boolean = true; // Add a loading flag
-  errorMessage: string = ''; // Add an error message property
+  userData: any;
+  loading: boolean = true;
+  errorMessage: string = '';
 
-  constructor(private api: ApiService) {}
+  constructor(private http: HttpClient, private api: ApiService) {}
 
   ngOnInit(): void {
-    this.loading = true; // Set loading to true when the component initializes
-    this.api.getFinanceDetails().subscribe({
-      next: (data: FinanceDetails) => { // Use the FinanceDetails interface
-        this.budget = data.budget;
-        this.totalRevenue = data.totalRevenue;
-        this.totalSalaries = data.totalSalaries;
-        this.profit = data.profit;
-        this.loading = false; // Set loading to false when data is received
+    this.loading = true;
+    // First, check user authentication
+    this.http.get('http://localhost:5000/auth/protected').subscribe({
+      next: (res: any) => {
+        this.userData = res;
+        console.log('Authenticated user:', this.userData);
+        // Now fetch finance details
+        this.api.getFinanceDetails().subscribe({
+          next: (data: FinanceDetails) => {
+            this.budget = data.budget;
+            this.totalRevenue = data.totalRevenue;
+            this.totalSalaries = data.totalSalaries;
+            this.profit = data.profit;
+            this.loading = false;
+          },
+          error: (err) => {
+            console.error('Error fetching finance data:', err);
+            this.errorMessage = 'Error loading finance data.';
+            this.loading = false;
+          }
+        });
       },
       error: (err) => {
-        console.error('Error fetching finance data:', err);
-        this.errorMessage = 'Error loading dashboard data. Please try again later.'; // Display an error message
-        this.loading = false; // Set loading to false even on error
+        console.error('User auth failed:', err);
+        this.errorMessage = err.error?.message || 'Authentication failed.';
+        this.loading = false;
       }
     });
   }

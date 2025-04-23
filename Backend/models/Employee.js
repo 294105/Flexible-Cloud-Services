@@ -8,11 +8,11 @@ const EmployeeSchema = new mongoose.Schema({
   role: String,
   paid: {
     type: String,
-    default: 'No'
+    default: 'Paid'
   },
   salary: {
     type: Number,
-    required: true
+    required: true,
   },
   trainerBankDetails: {
     accountHolder: { type: String },
